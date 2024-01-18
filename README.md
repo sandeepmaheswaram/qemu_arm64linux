@@ -5,6 +5,10 @@ https://lukaszgemborowski.github.io/articles/minimalistic-linux-system-on-qemu-a
 This is done on ubuntu 20.4 virtual box running on Windows 10 x86_64 laptop.
 Should work on any linux host.
 
+# Install QEMU
+  
+  sudo apt install qemu-system
+
 # Install the cross compiler for arm64
 
 sudo apt install gcc-aarch64-linux-gnu
