@@ -2,36 +2,41 @@
 This is made with reference from below link
 https://lukaszgemborowski.github.io/articles/minimalistic-linux-system-on-qemu-arm.html
 
-Install the cross compiler for arm64
- aarch64-linux-gnu
+Prerequisits:This is done on ubuntu 20.4 virtual box running on Windows 10 x86_64 laptop
 
- Download linux kernel source
+#Install the cross compiler for arm64
+
+sudo apt install gcc-aarch64-linux-gnu
+
+#Download linux kernel source
 
 $ wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.141.tar.xz
 
-Download the busybox
+#Download the busybox
 
 $ wget http://busybox.net/downloads/busybox-1.36.0.tar.bz2
 
-Extract downloaded archives:
+#Extract downloaded archives:
 
 $ tar -xf linux-5.15.141.tar.xz
 $ tar -xf busybox-1.36.0.tar.bz2
 
-
-Building ARM64 Linux kernel
+#Building ARM64 Linux kernel
 To do this as quick as possible we will use default configuration for qemu. To cross-compile Linux you need to know two things:
-
-
 
 $ cd linux-5.15.141
 $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig
+ .config file will be generated after this . We can further customize and disable unncessary configs by running below command
 
+$ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- menuconfig
+
+Compile the kernel after completing configuration
 
 $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnueabi-
 
+#Launch the qemu with the below command
 
-$ qemu-system-aarch64 -M virt -cpu cortex-a53 -kernel Image.gz -serial stdio -append "serial=ttyAMA0"
+$ qemu-system-aarch64 -M virt -cpu cortex-a53 -kernel linux-5.15.141/arch/arm64/boot/Image.gz -serial stdio -append "serial=ttyAMA0"
 
 
 Let’s talk about the arguments passed to qemu:
@@ -52,7 +57,7 @@ Hardware name: linux,dummy-virt (DT)
 
 Don’t worry, it’s expected. You do not have a device with a valid root file system. We will provide it in a while and this is the reason why we want to have BusyBox. It will provide basic functionality for our small system.
 
-Busybox
+#Busybox
 Go back one directory up to the place where you have extracted your BusyBox sources. Go into this directory and configure BusyBox, you will need almost the same command line arguments as for Linux kernel:
 
 $ cd busybox-1.36.0
@@ -67,7 +72,7 @@ $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- install
 
 This should be quite quick. Now we are ready to create our root filesystem image. We will put there init script, busybox and also provide proper directory layout.
 
-Root filesystem
+#Root filesystem
 So what this thing should contain? What do we want for our minimalistic Linux system? Only a few things:
 
 init script – Kernel needs to run something as first process in the system.
@@ -100,7 +105,7 @@ $ cd rootfs
 $ find . -print0 | cpio --null -ov --format=newc | gzip -9 > ../rootfs.cpio.gz
 Note that we changed the current directory to rootfs first. This is because we don’t want “rootfs” to be prepended to file paths.
 
-Running
+#Running
 This part is pretty straight forward, we will run our kernel almost exactly as before:
 
 $ qemu-system-aarch64 -M virt -cpu cortex-a53 -kernel linux-5.15.141/arch/arm64/boot/Image.gz  -initrd rootfs.cpio.gz -serial stdio -append "root=/dev/mem serial=ttyAMA0"
