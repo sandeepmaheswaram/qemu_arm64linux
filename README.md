@@ -27,8 +27,10 @@ $ tar -xf busybox-1.36.0.tar.bz2
 To do this as quick as possible we will use default configuration for qemu. To cross-compile Linux you need to know two things:
 
 $ cd linux-5.15.141
+
 $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig
- .config file will be generated after this . We can further customize and disable unncessary configs by running below command
+
+.config file will be generated after this. We can further customize and disable unncessary configs by running below command
 
 $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- menuconfig
 
@@ -63,13 +65,16 @@ Don’t worry, it’s expected. You do not have a device with a valid root file 
 Go back one directory up to the place where you have extracted your BusyBox sources. Go into this directory and configure BusyBox, you will need almost the same command line arguments as for Linux kernel:
 
 $ cd busybox-1.36.0
+
 $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig
+
 Now we have default configuration file created. We need to tune it a little by making busybox executable statically linked as we don’t want to provide additional shared libraries. We can do this by invoking:
 
 $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- menuconfig
 Navigating to Busybox Settings -> Build Options and checking “Build BusyBox as a static binary (no shared libs)” option. Now we can proceed with compilation:
 
 $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
+
 $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- install
 
 This should be quite quick. Now we are ready to create our root filesystem image. We will put there init script, busybox and also provide proper directory layout.
