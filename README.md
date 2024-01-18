@@ -36,7 +36,7 @@ $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- menuconfig
 
 Compile the kernel after completing configuration
 
-$ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnueabi-
+$ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
 
 # Launch the qemu with the below command
 
