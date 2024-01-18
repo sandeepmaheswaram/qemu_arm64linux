@@ -49,19 +49,19 @@ $ qemu-system-aarch64 -M virt -cpu cortex-a53 -kernel linux-5.15.141/arch/arm64/
 
 Let’s talk about the arguments passed to qemu:
 
--M – the board name, used for qemu
--cpu cpuname is mandatory for arm64 (eg: cortex-a53,cortex-a72)
--kernel – the kernel binary itself
--dtb – device tree for the board. Not used here as qemu picks virt.dtb internally
--serial – where the console should be printed, we want it on stdio.
--append – append additional kernel command line arguments. We need to inform kernel where to print stuff by default. We want it to be ttyAMA0 device (first serial port)
+-M – the board name, used for qemu  
+-cpu cpuname is mandatory for arm64 (eg: cortex-a53,cortex-a72)  
+-kernel – the kernel binary itself  
+-dtb – device tree for the board. Not used here as qemu picks virt.dtb internally  
+-serial – where the console should be printed, we want it on stdio.  
+-append – append additional kernel command line arguments. We need to inform kernel where to print stuff by default. We want it to be ttyAMA0 device (first serial port)  
 
 
 You should see the kernel booting and finally… kernel panic.
 
-Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(0,0)
-CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.15.141 #1
-Hardware name: linux,dummy-virt (DT)
+Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(0,0)  
+CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.15.141 #1  
+Hardware name: linux,dummy-virt (DT)  
 
 
 Don’t worry, it’s expected. You do not have a device with a valid root file system. We will provide it in a while and this is the reason why we want to have BusyBox. It will provide basic functionality for our small system.
