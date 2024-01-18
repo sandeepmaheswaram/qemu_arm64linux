@@ -76,6 +76,7 @@ $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig
 Now we have default configuration file created. We need to tune it a little by making busybox executable statically linked as we don’t want to provide additional shared libraries. We can do this by invoking:
 
 $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- menuconfig
+
 Navigating to Busybox Settings -> Build Options and checking “Build BusyBox as a static binary (no shared libs)” option. Now we can proceed with compilation:
 
 $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
@@ -105,16 +106,20 @@ exec /bin/sh
 Make it executable by:
 
 $ chmod +x rootfs/init
+
 Now copy busybox stuff there:
 
 $ cp -av busybox-1.36.0/_install/* rootfs/
+
 Now you should have almost everything, there is only one thing missing, ie. standard directory layout. Let’s create it:
 
 $ mkdir -pv rootfs/{bin,sbin,etc,proc,sys,usr/{bin,sbin}}
+
 That’s all. We will use contents of this directory as the init ram disk so we need to create cpio archive and compress it with gzip:
 
 $ cd rootfs
 $ find . -print0 | cpio --null -ov --format=newc | gzip -9 > ../rootfs.cpio.gz
+
 Note that we changed the current directory to rootfs first. This is because we don’t want “rootfs” to be prepended to file paths.
 
 # Running
