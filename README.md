@@ -2,7 +2,8 @@
 This is made with reference from below link
 https://lukaszgemborowski.github.io/articles/minimalistic-linux-system-on-qemu-arm.html
 
-Prerequisits:This is done on ubuntu 20.4 virtual box running on Windows 10 x86_64 laptop
+This is done on ubuntu 20.4 virtual box running on Windows 10 x86_64 laptop.
+Should work on any linux host.
 
 # Install the cross compiler for arm64
 
@@ -19,6 +20,7 @@ $ wget http://busybox.net/downloads/busybox-1.36.0.tar.bz2
 # Extract downloaded archives:
 
 $ tar -xf linux-5.15.141.tar.xz
+
 $ tar -xf busybox-1.36.0.tar.bz2
 
 # Building ARM64 Linux kernel
