@@ -46,6 +46,7 @@ $ qemu-system-aarch64 -M virt -cpu cortex-a53 -kernel linux-5.15.141/arch/arm64/
 Let’s talk about the arguments passed to qemu:
 
 -M – the board name, used for qemu
+-cpu cpuname is mandatory for arm64 (eg: cortex-a53,cortex-a72)
 -kernel – the kernel binary itself
 -dtb – device tree for the board. Not used here as qemu picks virt.dtb internally
 -serial – where the console should be printed, we want it on stdio.
