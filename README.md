@@ -132,3 +132,6 @@ There are two minor changes:
 -initrd argument is added, it points to the initial ram disk
 root=/dev/mem is added to -append string. It tells kernel from where we want to boot.
 Now you should see shell prompt. You’re in your own Linux “distribution”. :-)
+
+#Access the debugfs folders
+$mount -t debugfs none /sys/kernel/debug -o mode=755
