@@ -118,6 +118,7 @@ $ mkdir -pv rootfs/{bin,sbin,etc,proc,sys,usr/{bin,sbin}}
 That’s all. We will use contents of this directory as the init ram disk so we need to create cpio archive and compress it with gzip:
 
 $ cd rootfs
+
 $ find . -print0 | cpio --null -ov --format=newc | gzip -9 > ../rootfs.cpio.gz
 
 Note that we changed the current directory to rootfs first. This is because we don’t want “rootfs” to be prepended to file paths.
